@@ -132,7 +132,7 @@ def main(config_path):
         logging.info("Running trait enrichment analysis")
         trait_enrichment_config = config['trait_enrichment']
         trait_enrichment_config.pop('inplace')
-        res_trait = compute_trait_enrichment(
+        pre_res_trait = compute_trait_enrichment(
             mdata, 
             prog_key=prog_key,
             data_key=data_key,
@@ -144,14 +144,17 @@ def main(config_path):
             key_column=trait_enrichment_config['key_column'],
             gene_column=trait_enrichment_config['gene_column'],
             method=trait_enrichment_config['method'],
-            loading_rank_thresh=trait_enrichment_config['loading_rank_thresh'],
+            n_top=trait_enrichment_config['n_top'],
+            low_cutoff=trait_enrichment_config['low_cutoff'],
+            min_size=trait_enrichment_config['min_size'],
+            max_size=trait_enrichment_config['max_size'],
         )
         if trait_enrichment_config["method"] == "fisher":
-            res_trait = res_trait.rename(columns={"Term": "term", "P-value": "pval", "Adjusted P-value": "adj_pval", "Odds Ratio": "effect_size", "Genes": "genes"})
+            pre_res_trait = pre_res_trait.rename(columns={"Term": "term", "P-value": "pval", "Adjusted P-value": "adj_pval", "Odds Ratio": "enrichment", "Genes": "genes"})
         elif trait_enrichment_config["method"] == "gsea":
-            res_trait = res_trait.rename(columns={"Term": "term", "NOM p-val": "pval", "FDR q-val": "adj_pval", "NES": "effect_size", "Lead_genes": "genes"})
+            pre_res_trait = pre_res_trait.rename(columns={"Term": "term", "NOM p-val": "pval", "FDR q-val": "adj_pval", "NES": "enrichment", "Lead_genes": "genes"})
         data = process_enrichment_data(
-            enrich_res=res_trait,
+            enrich_res=pre_res_trait,
             metadata=trait_enrichment_config['metadata'],
             pval_col=trait_enrichment_config["pval_col"],
             enrich_geneset_id_col=trait_enrichment_config["enrich_geneset_id_col"],

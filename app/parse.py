@@ -26,7 +26,7 @@ def parse_loadings(mdata, data_key="rna"):
             loadings[key] = pd.DataFrame(
                 data=mdata.mod[key].varm["loadings"],
                 index=mdata.mod[key].var_names,
-                columns=mdata.mod[key].uns["var_names"]
+                columns=mdata.mod[key].uns["var_names"] if "var_names" in mdata.mod[key].uns else mdata.mod[key].uns["loadings_genes"]
             )
             loadings[key].index.name = "program_name"
             loadings[key].columns.name = "gene_name"
