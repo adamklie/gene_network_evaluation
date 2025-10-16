@@ -1,1 +1,2 @@
-from .consensus_NMF import run_consensus_NMF, run_consensus_NMF_, run_cnmf_factorization, run_cnmf_consensus, init_cnmf_obj
+from .consensus_NMF import run_consensus_NMF, run_consensus_NMF_, run_cnmf_factorization, run_cnmf_consensus, init_cnmf_obj,\
+                           compile_results, get_top_indices_fast, annotate_genes_to_excel
