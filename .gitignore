@@ -3,7 +3,7 @@
 
 # examples
 examples/
-**/consensus_NMF/test.sh
+**/test.sh
 
 # app
 app/scratch/
