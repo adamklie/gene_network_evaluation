@@ -1,12 +1,12 @@
 io:
-  path_mdata: /cellar/users/aklie/opt/gene_program_evaluation/examples/inference/iPSC_EC/cNMF/cNMF_30_0.2_gene_names.h5mu
-  path_out: /cellar/users/aklie/opt/gene_program_evaluation/examples/evaluation/iPSC_EC/cNMF/cNMF_30
-  data_key: rna
-  prog_key: cNMF
+  path_mdata: /path/to/your/mdata.h5mu  # path to the mdata file
+  path_out: /path/to/your/output  # path to the output directory, all outputs will be saved here
+  data_key: rna  # key to the AnnData object in the MuData that inference was run on
+  prog_key: your_prog_key  # key to the programs in the MuData that inference generated
 
 categorical_association:
-  categorical_keys: 
-    - sample
+  categorical_keys:  # keys to the categorical annotations in the data_key AnnData.obs
+    - categorical_key_1
   pseudobulk_key: null
   test: pearsonr
   mode: one_vs_all

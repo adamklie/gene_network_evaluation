@@ -164,7 +164,7 @@ def compute_perturbation_association(
         for i, guide in enumerate(mdata[prog_key].uns['guide_names']):
             for program in mdata[prog_key].obs_names:
                 pseudobulked_scores.loc[guide, program] = \
-                mdata[prog_key][mdata[prog_key].obsm[guide_assignments_key][:,i].astype(bool), program].X.mean()
+                mdata[prog_key][mdata[data_key].obsm[guide_assignments_key][:,i].astype(bool), program].X.mean()
         
         pseudobulked_scores['Target'] = mdata[prog_key].uns['guide_targets']
 
@@ -179,7 +179,7 @@ def compute_perturbation_association(
     # Otherwise, grab a MuData for all those guides assigned to the reference targets
     else:
         reference_guide_idx = guide_metadata.index.get_indexer(guide_metadata.loc[guide_metadata.Target.isin(reference_targets)].index.values)
-        reference_data = mdata[prog_key][np.any(mdata[prog_key].obsm[guide_assignments_key][:,reference_guide_idx].astype(bool), axis=1)]
+        reference_data = mdata[prog_key][np.any(mdata[data_key].obsm[guide_assignments_key][:,reference_guide_idx].astype(bool), axis=1)]
 
     # Get the rest of the guides to test against the reference
     test_guides = guide_metadata.loc[~guide_metadata.Target.isin(reference_targets)].index.values
@@ -199,7 +199,7 @@ def compute_perturbation_association(
 
             # Grab data for the current target
             test_guide_idx = guide_metadata.index.get_indexer(guide_metadata.index[guide_metadata['Target']==target])
-            test_data = mdata[prog_key][mdata[prog_key].obsm[guide_assignments_key][:,test_guide_idx].any(-1).astype(bool)]
+            test_data = mdata[prog_key][mdata[data_key].obsm[guide_assignments_key][:,test_guide_idx].any(-1).astype(bool)]
 
             # Run test for every program
             Parallel(n_jobs=n_jobs, backend='threading')(delayed(compute_perturbation_association_)(
@@ -225,7 +225,7 @@ def compute_perturbation_association(
             else:
                 # Grab data for the current guide
                 test_guide_idx = guide_metadata.index.get_loc(guide)
-                test_data = mdata[prog_key][mdata[prog_key].obsm[guide_assignments_key][:,test_guide_idx].astype(bool)]
+                test_data = mdata[prog_key][mdata[data_key].obsm[guide_assignments_key][:,test_guide_idx].astype(bool)]
 
                 # Run test for every program
                 Parallel(n_jobs=n_jobs, backend='threading')(delayed(compute_perturbation_association_)(

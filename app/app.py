@@ -84,8 +84,14 @@ def create_dash_app(config):
 
     # Load evaluation config
     evaluation_config = load_config(path_evaluation_config)
-    perturbation_association_stratification_key = evaluation_config["perturbation_association"]["groupby_key"]
-    motif_enrichment_stratification_key = evaluation_config["motif_enrichment"]["groupby_key"]
+    if "perturbation_association" not in evaluation_config:
+        perturbation_association_stratification_key = "global"
+    else:
+        perturbation_association_stratification_key = evaluation_config["perturbation_association"]["groupby_key"]
+    if "motif_enrichment" not in evaluation_config:
+        motif_enrichment_stratification_key = "global"
+    else:
+        motif_enrichment_stratification_key = evaluation_config["motif_enrichment"]["groupby_key"]
     
     # Set up logging to print to console and also to file in path_out (evaluation_pipeline.log) with overwrite
     log_path = os.path.join(path_report_out, 'reports_pipeline.log')
@@ -209,4 +215,4 @@ if __name__ == '__main__':
     path_report_out = config["path_report_out"]
     os.makedirs(path_report_out, exist_ok=True)
     app = create_dash_app(config)
-    app.run_server(debug=True, host='0.0.0.0', port=8050)
+    app.run(debug=True, host='0.0.0.0', port=8050)

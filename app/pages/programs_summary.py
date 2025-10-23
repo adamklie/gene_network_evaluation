@@ -41,6 +41,37 @@ motif_enrichment_stratification_key = results['motif_enrichment_stratification_k
 if motif_enrichment_stratification_key is None:
     motif_enrichment_stratification_key = "global"
 
+# Motif stuff
+if len(results['motif_enrichments'][default_run]['results']) == 0:
+    e_p_types = ["None"]
+    motif_databases = ["None"]
+    motif_test_types = ["None"]
+    motif_level_keys = ["None"]
+    default_e_p_type = "None"
+    default_motif_database = "None"
+    default_motif_test_type = "None"
+    default_motif_level_key = "None"
+else:
+    e_p_types = list(set(results['motif_enrichments'][default_run]['E_P_types']))
+    default_e_p_type = e_p_types[0]
+    motif_databases = list(set(results['motif_enrichments'][default_run]['databases']))
+    default_motif_database = motif_databases[0]
+    motif_test_types = list(set(results['motif_enrichments'][default_run]['test_types']))
+    default_motif_test_type = motif_test_types[0]
+    motif_level_keys = list(set(results['motif_enrichments'][default_run]['level_keys']))
+    default_motif_level_key = motif_level_keys[0]
+
+# Perturbation stuff
+if len(results['perturbation_associations'][default_run]['results']) == 0:
+    gene_guides = ["None"]
+    perturbation_level_keys = ["None"]
+    default_gene_guide = "None"
+    default_perturbation_level_key = "None"
+else:
+    gene_guides = list(set(results['perturbation_associations'][default_run]['gene_guides']))
+    default_gene_guide = gene_guides[0]
+    perturbation_level_keys = list(set(results['perturbation_associations'][default_run]['level_keys']))
+    default_perturbation_level_key = perturbation_level_keys[0]
 
 # Create layout
 layout = dbc.Container([
@@ -233,8 +264,8 @@ layout = dbc.Container([
                             html.Label("Select E/P type"),
                             dcc.Dropdown(
                                 id='motifs-E_P_type-selector',
-                                options=[{'label': E_P_types, 'value': E_P_types} for E_P_types in list(set(results['motif_enrichments'][default_run]['E_P_types']))],
-                                value=list(set(results['motif_enrichments'][default_run]['E_P_types']))[0]
+                                options=[{'label': E_P_types, 'value': E_P_types} for E_P_types in e_p_types],
+                                value=default_e_p_type
                             )
                         ], width=6),
 
@@ -242,8 +273,8 @@ layout = dbc.Container([
                             html.Label("Select Motif Database"),
                             dcc.Dropdown(
                                 id='motifs-database-selector',
-                                options=[{'label': databases, 'value': databases} for databases in list(set(results['motif_enrichments'][default_run]['databases']))],
-                                value=list(set(results['motif_enrichments'][default_run]['databases']))[0]
+                                options=[{'label': databases, 'value': databases} for databases in motif_databases],
+                                value=default_motif_database
                             )
                         ], width=6),
                     ], className="mt-3"),
@@ -253,8 +284,8 @@ layout = dbc.Container([
                             html.Label("Select Motif Enrichment Test Type"),
                             dcc.Dropdown(
                                 id='motifs-test_type-selector',
-                                options=[{'label': test_type, 'value': test_type} for test_type in list(set(results['motif_enrichments'][default_run]['test_types']))],
-                                value=list(set(results['motif_enrichments'][default_run]['test_types']))[0]
+                                options=[{'label': test_type, 'value': test_type} for test_type in motif_test_types],
+                                value=default_motif_test_type
                             )
                         ], width=6),
 
@@ -262,8 +293,8 @@ layout = dbc.Container([
                             html.Label("Select Level Key"),
                             dcc.Dropdown(
                                 id='motifs-level_key-selector',
-                                options=[{'label': level_key, 'value': level_key} for level_key in sorted(list(set(results['motif_enrichments'][default_run]['level_keys'])))],
-                                value=sorted(list(set(results['motif_enrichments'][default_run]['level_keys'])))[0]
+                                options=[{'label': level_key, 'value': level_key} for level_key in sorted(motif_level_keys)],
+                                value=sorted(motif_level_keys)[0]
                             )
                         ], width=6),
                     ], className="mt-3"),
@@ -412,8 +443,8 @@ layout = dbc.Container([
                             html.Label("Select Gene Guide"),
                             dcc.Dropdown(
                                 id='perturbations-gene_guide-selector',
-                                options=[{'label': gene_guide, 'value': gene_guide} for gene_guide in list(set(results['perturbation_associations'][default_run]['gene_guides']))],
-                                value=list(set(results['perturbation_associations'][default_run]['gene_guides']))[0]
+                                options=[{'label': gene_guide, 'value': gene_guide} for gene_guide in gene_guides],
+                                value=gene_guides[0]
                             )
                         ], width=6),
 
@@ -421,8 +452,8 @@ layout = dbc.Container([
                             html.Label("Select Level Key"),
                             dcc.Dropdown(
                                 id='perturbations-level_key-selector',
-                                options=[{'label': level_key, 'value': level_key} for level_key in sorted(list(set(results['perturbation_associations'][default_run]['level_keys'])))],
-                                value=sorted(list(set(results['perturbation_associations'][default_run]['level_keys'])))[0]
+                                options=[{'label': level_key, 'value': level_key} for level_key in sorted(perturbation_level_keys)],
+                                value=sorted(perturbation_level_keys)[0]
                             )
                         ], width=6),
                     ], className="mt-3"),

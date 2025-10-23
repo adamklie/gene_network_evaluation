@@ -1,5 +1,5 @@
-# Instructions for running dashboard for the 2024 IGVF Gene Program Jamboree
-This page details how to run the gene program interpretation and annotation dashboard for the 2024 IGVF Gene Program Jamboree. For more information on gene program inference and evaluation, please see the [main repository README](../README.md).
+# Instructions for running dashboard for the 2025 IGVF TF Perturb-seq Jamboree
+This page details how to run the gene program interpretation and annotation dashboard for the 2025 IGVF TF Perturb-seq Jamboree. For more information on gene program inference and evaluation, please see the [main repository README](../README.md).
 
 # Overview
 1. [Installation](#installation)
